@@ -1,0 +1,4 @@
+megs: 32
+floppya: 1_44=bin/mbr.bin, status=inserted
+boot: a
+mouse: enabled=0
