@@ -19,12 +19,12 @@ S_OBJ_FILES:=$(addprefix $(S_OBJ_DIR)/,$(notdir $(S_FILES:.S=.o)))
 
 
 .PHONY: all
-all: $(BIN) $(H_FILES)
+all: $(BIN)
 
-$(S_OBJ_DIR)/%.o: $(SRC_DIR)/%.S
+$(S_OBJ_DIR)/%.o: $(SRC_DIR)/%.S $(H_FILES)
 	$(AS) $(ASFLAGS) $< -o $@
 
-$(C_OBJ_DIR)/%.o: $(SRC_DIR)/%.c 
+$(C_OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(H_FILES)
 	$(CC) $(CCFLAGS) $< -o $@
 
 $(BIN): $(S_OBJ_FILES) $(C_OBJ_FILES)

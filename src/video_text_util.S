@@ -39,6 +39,21 @@ clear_scr_set_color:
     ret
 
 
+get_cursor_pos:
+    movb $0x03, %ah
+
+    push %ebx
+    xor %ebx, %ebx          # Page 0
+
+    int $0x10
+
+    xor %eax, %eax
+    movw %dx, %ax
+
+    pop %ebx
+    ret
+
+
 print_str:
     # Set str pointer
     push %ebp
@@ -47,11 +62,13 @@ print_str:
     shr $0x10, %eax
     movw %ax, %es           # I can xor es as 16-bit address expected, can't I?
 
+    # Set col and row to the current cursor position
+    call get_cursor_pos
+    xor %edx, %edx
+    movw %ax, %dx
+
     # Set str length
     movw 0x0c(%esp), %cx    # Function 2nd arg
-
-    # Set column and row to 0
-    xor %edx, %edx
 
     # Set color 
     push %ebx
